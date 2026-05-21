@@ -21,11 +21,15 @@ Replay PRs in this fork are titled `<original title> (replay of <short-sha>)` an
 
 ## How this works
 
-1. Each benchmark target is a real `aaronjmars/aeon` commit (162 merged PRs + 1 closed-but-substantive PR available as of 2026-05-18).
+1. Each benchmark target is a real `aaronjmars/aeon` change — either a merged commit, or an **open** community PR head commit. The initial 30 replays were all merged commits (162 merged PRs + 1 closed-but-substantive PR available as of 2026-05-18); subsequent replays may include in-flight PRs.
 2. The change is replayed as a PR on this mirror by cherry-picking the commit onto a branch from its parent.
 3. AntFleet's GitHub App reviews the PR automatically: Anthropic `claude-opus-4-7` and OpenAI `gpt-5` run in parallel, and only unanimous findings post.
 4. Receipts appear publicly on [antfleet.dev/receipts](https://antfleet.dev/receipts).
 5. A separate research harness (`antfleet/antfleet:scripts/spike-per-pr.ts`) re-runs the same PRs with three additional open models (Qwen 3 Coder 480B, DeepSeek V4 Pro, Llama 3.3 70B) served via [Venice](https://venice.ai), to test whether open-model agreement adds real signal to the unanimous-agreement gate. Results are published in a follow-up writeup.
+
+### Open-PR replays
+
+A replay may target an **open** upstream PR rather than a merged commit. The mechanics are the same — the PR's head commit is cherry-picked onto a bench branch and the gate runs against the resulting diff. This produces a receipt before the upstream PR is merged. The receipt is informational only; it does not gate upstream merge and is not a substitute for the upstream maintainer's review.
 
 ## Methodology
 
